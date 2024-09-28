@@ -1,0 +1,24 @@
+server:
+  port: 8081
+
+app:
+  logging:
+    level: DEBUG,
+    dir: logs
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5433/iss_education
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+    properties:
+          hibernate:
+            format_sql: true
+            jdbc:
+              lob:
+                non_contextual_creation: true
+  flyway:
+    locations: ['classpath:db/migration']

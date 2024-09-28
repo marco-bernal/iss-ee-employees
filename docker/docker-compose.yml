@@ -1,0 +1,37 @@
+version: '3'
+
+services:
+  # Database
+  employees_db:
+    image: postgres:latest
+    restart: always
+    ports:
+      - "5433:5432"
+    networks:
+      - backend
+    environment:
+      - POSTGRES_DB=iss_education
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  # Backend App
+  iss-ee-employees:
+    image: iss-ee-employees:latest
+    restart: always
+    depends_on:
+      - employees_db
+    ports:
+      - "8091:8081"
+    networks:
+      - backend
+    environment:
+      - DATABASE_HOST=employees_db
+      - DATABASE_PORT=5432
+      - DATABASE_NAME=iss_education
+      - DATABASE_USER=postgres
+      - DATABASE_PASSWORD=postgres
+      - SPRING_PROFILES_ACTIVE=dev, docker
+
+networks:
+  backend:
+

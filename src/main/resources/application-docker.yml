@@ -1,0 +1,3 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://employees_db:5432/iss_education

@@ -1,0 +1,193 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- TODO: Clean up and update dependenices to Java 23 and Spring boot 3.3.3 -->
+  <parent>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-parent</artifactId>
+      <version>2.5.1</version>
+  </parent>
+  
+  <artifactId>iss-ee-employees</artifactId>
+  <packaging>jar</packaging>
+  <version>1.0-SNAPSHOT</version>
+  
+  <name>iss-ee-employees</name>
+  <description>Microservice for ISS Employees Education - Employee</description>
+  
+  <properties>
+      <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+      <java.version>11</java.version>
+      <postgres.version>42.2.22</postgres.version>
+      <lombok.version>1.18.20</lombok.version>
+      <flyway.version>7.10.0</flyway.version>
+      <mapstruct.version>1.4.2.Final</mapstruct.version>
+      <swagger.version>2.6.1</swagger.version>
+      <junit.version>5.7.2</junit.version>
+      <!--<spring-security-oauth2.version>2.4.0.RELEASE</spring-security-oauth2.version>-->
+      <!--<okta.version>1.4.0</okta.version>-->
+      <mvn.compiler.version>3.8.1</mvn.compiler.version>
+      <!-- dockerfile.plugin.version>1.0.0</dockerfile.plugin.version -->
+  </properties>
+
+    <dependencies>
+        <!-- spring-boot-starter-web -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <!-- security-->
+        <!--<dependency>-->
+        <!--<groupId>org.springframework.boot</groupId>-->
+        <!--<artifactId>spring-boot-starter-security</artifactId>-->
+        <!--</dependency>-->
+
+        <!-- spring-boot-starter-data-jpa-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- spring-boot-starter-test -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-test</artifactId>
+          <scope>test</scope>
+          <exclusions>
+              <exclusion>
+                  <groupId>junit</groupId>
+                  <artifactId>junit</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
+      <!-- spring-boot-starter-hateoas -->
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-starter-hateoas</artifactId>
+          <scope>compile</scope>
+      </dependency>
+
+      <!-- Use actuator for production releases: Implement it in this project -->
+      <!--
+      <dependency>
+          <groupId>org.springframework.boot</groupId>
+          <artifactId>spring-boot-actuator</artifactId>
+      </dependency>
+        -->
+
+      <!-- Postgres JDBC Driver-->
+      <dependency>
+          <groupId>org.postgresql</groupId>
+          <artifactId>postgresql</artifactId>
+          <version>${postgres.version}</version>
+      </dependency>
+
+      <!-- Lombok -->
+      <dependency>
+          <groupId>org.projectlombok</groupId>
+          <artifactId>lombok</artifactId>
+          <version>${lombok.version}</version>
+      </dependency>
+
+      <!-- Flyway -->
+      <dependency>
+          <groupId>org.flywaydb</groupId>
+          <artifactId>flyway-core</artifactId>
+          <version>${flyway.version}</version>
+      </dependency>
+
+        <!-- Mapstruct -->
+      <dependency>
+          <groupId>org.mapstruct</groupId>
+          <artifactId>mapstruct</artifactId>
+          <version>${mapstruct.version}</version>
+      </dependency>
+
+        <!-- TODO: Update to swagger 3 -->
+        <!-- Swagger -->
+      <dependency>
+          <groupId>io.springfox</groupId>
+          <artifactId>springfox-swagger-ui</artifactId>
+          <version>${swagger.version}</version>
+          <scope>compile</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>io.springfox</groupId>
+          <artifactId>springfox-swagger2</artifactId>
+          <version>${swagger.version}</version>
+          <scope>compile</scope>
+      </dependency>
+
+      <!-- jUnit 5 -->
+      <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${junit.version}</version>
+          <scope>test</scope>
+      </dependency>
+
+      <!-- hot swapping, disable cache for template, enable live reload -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<optional>true</optional>
+		</dependency>
+
+  </dependencies>
+  
+  <build>
+      <finalName>${project.artifactId}</finalName>
+      <plugins>
+          <plugin>
+              <groupId>org.springframework.boot</groupId>
+              <artifactId>spring-boot-maven-plugin</artifactId>
+          </plugin>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>${mvn.compiler.version}</version>
+              <configuration>
+                  <source>11</source>
+                  <target>11</target>
+                  <annotationProcessorPaths>
+                      <path>
+                          <groupId>org.projectlombok</groupId>
+                          <artifactId>lombok</artifactId>
+                          <version>${lombok.version}</version>
+                      </path>
+                      <path>
+                          <groupId>org.mapstruct</groupId>
+                          <artifactId>mapstruct-processor</artifactId>
+                          <version>${mapstruct.version}</version>
+                      </path>
+                  </annotationProcessorPaths>
+              </configuration>
+          </plugin>
+
+          <!-- use dockerfile plugin instead
+          <plugin>
+              <groupId>com.spotify</groupId>
+              <artifactId>docker-maven-plugin</artifactId>
+              <version>${dockerfile.plugin.version}</version>
+              <configuration>
+                  <imageName>${project.artifactId}</imageName>
+                  <dockerDirectory>src/main/docker</dockerDirectory>
+                  <resources>
+                      <resource>
+                          <targetPath>/</targetPath>
+                          <directory>${project.build.directory}</directory>
+                          <include>${project.build.finalName}.jar</include>
+                      </resource>
+                  </resources>
+              </configuration>
+          </plugin>
+          -->
+
+      </plugins>
+  </build>
+
+</project>
